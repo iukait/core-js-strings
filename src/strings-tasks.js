@@ -278,8 +278,13 @@ function reverseString(str) {
  *   orderAlphabetically('textbook') => 'bekoottx'
  *   orderAlphabetically('abc123xyz') => '123abcxyz'
  */
-function orderAlphabetically(/* str */) {
-  throw new Error('Not implemented');
+function orderAlphabetically(str) {
+  const sortedChars = str
+    .split('')
+    .sort((a, b) => a.charCodeAt(0) - b.charCodeAt(0));
+  const result = sortedChars.join('');
+
+  return result;
 }
 
 /**
@@ -384,7 +389,6 @@ function reverseWords(str) {
   const arr = str.split(' ');
   for (let i = 0; i < arr.length; i += 1) {
     newArr.push(arr[i].split('').reverse().join(''));
-    console.log(newArr);
   }
   return newArr.join(' ');
 }
@@ -399,10 +403,22 @@ function reverseWords(str) {
  *   invertCase('JavaScript is Fun') => 'jAVAsCRIPT IS fUN'
  *   invertCase('12345') => '12345'
  */
-function invertCase(/* str */) {
-  throw new Error('Not implemented');
+function invertCase(str) {
+  const newArr = [];
+  const word = str.split(' ');
+  for (let i = 0; i < word.length; i += 1) {
+    const chars = word[i].split('');
+    for (let j = 0; j < chars.length; j += 1) {
+      if (chars[j] === chars[j].toUpperCase()) {
+        chars[j] = chars[j].toLowerCase();
+      } else {
+        chars[j] = chars[j].toUpperCase();
+      }
+    }
+    newArr.push(chars.join(''));
+  }
+  return newArr.join(' ');
 }
-
 /**
  * Returns the result of string template and given parameters firstName and lastName.
  * Please do not use concatenation, use template string :
@@ -416,8 +432,8 @@ function invertCase(/* str */) {
  *   getStringFromTemplate('John','Doe') => 'Hello, John Doe!'
  *   getStringFromTemplate('Chuck','Norris') => 'Hello, Chuck Norris!'
  */
-function getStringFromTemplate(/* firstName, lastName */) {
-  throw new Error('Not implemented');
+function getStringFromTemplate(firstName, lastName) {
+  return `Hello, ${firstName} ${lastName}!`;
 }
 
 /**
@@ -430,10 +446,10 @@ function getStringFromTemplate(/* firstName, lastName */) {
  *   extractNameFromTemplate('Hello, John Doe!') => 'John Doe'
  *   extractNameFromTemplate('Hello, Chuck Norris!') => 'Chuck Norris'
  */
-function extractNameFromTemplate(/* value */) {
-  throw new Error('Not implemented');
+function extractNameFromTemplate(value) {
+  const nameParts = value.split(' ').slice(1, 3);
+  return nameParts.join(' ').replace('!', '');
 }
-
 /**
  * Remove the first and last angle brackets from tag string
  *
@@ -445,10 +461,9 @@ function extractNameFromTemplate(/* value */) {
  *   unbracketTag('<span>') => 'span'
  *   unbracketTag('<a>') => 'a'
  */
-function unbracketTag(/* str */) {
-  throw new Error('Not implemented');
+function unbracketTag(str) {
+  return str.replace('>', '').replace('<', '');
 }
-
 /**
  * Extracts e-mails from single string with e-mails list delimited by semicolons
  *
@@ -464,10 +479,9 @@ function unbracketTag(/* str */) {
  *   ],
  *   'info@gmail.com' => ['info@gmail.com']
  */
-function extractEmails(/* str */) {
-  throw new Error('Not implemented');
+function extractEmails(str) {
+  return str.split(';').map((item) => `${item}`);
 }
-
 /**
  * Encode specified string with ROT13 cipher
  * See details:  https://en.wikipedia.org/wiki/ROT13
@@ -481,11 +495,27 @@ function extractEmails(/* str */) {
  *   'Why did the chicken cross the road?' => 'Jul qvq gur puvpxra pebff gur ebnq?'
  *   'Gb trg gb gur bgure fvqr!' => 'To get to the other side!'
  *   'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
- *    => 'NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm'
+ *   'NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm'
  *
  */
-function encodeToRot13(/* str */) {
-  throw new Error('Not implemented');
+function encodeToRot13(str) {
+  const shift = 13;
+  const resultArray = [];
+
+  for (let i = 0; i < str.length; i += 1) {
+    const char = str[i];
+
+    if (/[a-zA-Z]/.test(char)) {
+      const isUpperCase = char === char.toUpperCase();
+      const shiftValue = isUpperCase ? 'A'.charCodeAt(0) : 'a'.charCodeAt(0);
+      const encodedCharCode =
+        ((char.charCodeAt(0) - shiftValue + shift) % 26) + shiftValue;
+      resultArray.push(String.fromCharCode(encodedCharCode));
+    } else {
+      resultArray.push(char);
+    }
+  }
+  return resultArray.join('');
 }
 
 /**
@@ -512,8 +542,62 @@ function encodeToRot13(/* str */) {
  *   'Q♠' => 50
  *   'K♠' => 51
  */
-function getCardId(/* value */) {
-  throw new Error('Not implemented');
+function getCardId(value) {
+  const initialDeck = [
+    'A♣',
+    '2♣',
+    '3♣',
+    '4♣',
+    '5♣',
+    '6♣',
+    '7♣',
+    '8♣',
+    '9♣',
+    '10♣',
+    'J♣',
+    'Q♣',
+    'K♣',
+    'A♦',
+    '2♦',
+    '3♦',
+    '4♦',
+    '5♦',
+    '6♦',
+    '7♦',
+    '8♦',
+    '9♦',
+    '10♦',
+    'J♦',
+    'Q♦',
+    'K♦',
+    'A♥',
+    '2♥',
+    '3♥',
+    '4♥',
+    '5♥',
+    '6♥',
+    '7♥',
+    '8♥',
+    '9♥',
+    '10♥',
+    'J♥',
+    'Q♥',
+    'K♥',
+    'A♠',
+    '2♠',
+    '3♠',
+    '4♠',
+    '5♠',
+    '6♠',
+    '7♠',
+    '8♠',
+    '9♠',
+    '10♠',
+    'J♠',
+    'Q♠',
+    'K♠',
+  ];
+  return initialDeck.indexOf(value);
 }
 
 module.exports = {
